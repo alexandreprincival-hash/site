@@ -250,6 +250,75 @@ img { max-width: 100%; }
 [hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 section[id], main[id] { scroll-margin-top: 84px; }
+
+/* menu (mobile/tablet) */
+.menu-btn { display: none; flex: none; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.22); border-radius: 8px; background: transparent; cursor: pointer; padding: 0; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+.menu-btn span { display: block; width: 20px; height: 2px; background: var(--on-band); border-radius: 2px; transition: transform .2s, opacity .2s; }
+.menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.menu { background: var(--band); border-top: 1px solid rgba(255,255,255,.08); padding: 8px 16px 20px; display: grid; }
+.menu a:not(.btn) { color: var(--on-band); text-decoration: none; font-size: 18px; padding: 14px 4px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.menu .btn { margin-top: 18px; padding: 15px 20px; font-size: 16px; }
+@media (max-width: 1100px) { .menu-btn { display: inline-flex; } .top .wrap { gap: 12px; } .nav { margin-left: auto; } }
+@media (min-width: 1101px) { .menu { display: none !important; } }
+@media (max-width: 640px) {
+  .nav { display: none; }
+  .top .wrap { padding-block: 10px; }
+  .brand { gap: 10px; }
+  .brand svg { width: 54px; }
+  .brand b { font-size: 15px; letter-spacing: .1em; }
+  .brand span { font-size: 9px; letter-spacing: .18em; }
+}
+@media (max-width: 380px) { .brand span { display: none; } }
+
+/* hero & sections on phones */
+@media (max-width: 520px) {
+  .hero .wrap { padding-block: 32px 40px; gap: 32px; }
+  .hero h1 { font-size: 34px; }
+  .hero .lead { font-size: 17px; margin-top: 16px; }
+  .hero .actions { margin-top: 24px; }
+  .hero .actions .btn { width: 100%; padding-block: 15px; }
+  .hero .actions small { width: 100%; text-align: center; }
+  .agents { margin-top: 28px; }
+  .calc h2 { font-size: 20px; }
+  .field .row { flex-wrap: wrap; row-gap: 2px; }
+  .head { margin-bottom: 28px; }
+  .head p { font-size: 16.5px; }
+  .terms > div, .svc, .pay > div { padding: 22px 20px; }
+  .terms dl div { grid-template-columns: 1fr; gap: 2px; }
+  .svc h3 { font-size: 21px; }
+  .fne-stats { gap: 16px; margin-bottom: 28px; }
+  .faq summary { font-size: 18px; padding-block: 16px; }
+  .contact { padding: 28px 18px; border-radius: 10px; }
+  .channel .v { font-size: 15px; }
+  footer .wrap { flex-direction: column; }
+  .foot-brand { align-items: flex-start; }
+}
+
+/* FNE tables become cards on phones */
+@media (max-width: 640px) {
+  .tbl { overflow: visible; }
+  .tbl table { min-width: 0; display: block; }
+  .tbl caption { display: block; padding: 18px 18px 8px; }
+  .tbl thead { display: none; }
+  .tbl tbody, .tbl tr, .tbl td { display: block; }
+  .tbl tr { padding: 12px 18px 14px; border-top: 1px solid var(--line); }
+  .tbl td { padding: 2px 0; border: 0; }
+  .tbl td:first-child { font-family: var(--font-display); font-size: 18px; white-space: normal; margin-bottom: 4px; }
+  .tbl td:not(:first-child)::before { content: attr(data-label) ": "; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+}
+
+/* sticky contact bar on phones */
+.mbar { display: none; }
+@media (max-width: 760px) {
+  .mbar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--band); border-top: 1px solid rgba(255,255,255,.12); box-shadow: 0 -8px 24px -12px rgba(0,0,0,.4); }
+  .mbar a { min-height: 46px; font-size: 15px; padding: 10px 12px; white-space: nowrap; text-align: center; }
+  .mbar-wa { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 6px; border: 1px solid var(--amber); color: var(--on-band); text-decoration: none; font-weight: 600; }
+  .mbar-wa svg { width: 20px; height: 20px; color: #3FD27E; }
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  body.menu-open .mbar { display: none; }
+}
 </style>
 </head>
 <body>
@@ -267,7 +336,17 @@ section[id], main[id] { scroll-margin-top: 84px; }
       <a href="#quem">Quem conduz</a>
       <a class="btn btn-amber" href="#contato">Diagnóstico gratuito</a>
     </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span></span><span></span><span></span></button>
   </div>
+  <nav class="menu" id="menu" aria-label="Menu" hidden>
+    <a href="#servicos">Serviços</a>
+    <a href="#fne">Linhas FNE</a>
+    <a href="#metodo">Como trabalhamos</a>
+    <a href="#honorarios">Honorários</a>
+    <a href="#quem">Quem conduz</a>
+    <a href="#duvidas">Dúvidas</a>
+    <a class="btn btn-amber" href="#contato">Solicitar diagnóstico gratuito</a>
+  </nav>
 </header>
 
 <main id="inicio">
@@ -397,12 +476,12 @@ section[id], main[id] { scroll-margin-top: 84px; }
             <caption>Rural e sustentabilidade</caption>
             <thead><tr><th>Programa</th><th>Para quem</th><th>O que financia</th></tr></thead>
             <tbody>
-              <tr><td>FNE Rural</td><td>Produtores, cooperativas e associações</td><td>Obras, máquinas, tratores e matrizes</td></tr>
-              <tr><td>Custeio FNE</td><td>Produtores rurais</td><td>Custeio agrícola e pecuário</td></tr>
-              <tr><td>FNE Irrigação</td><td>Produtores de mini a grande porte</td><td>Irrigação, drenagem, armazenagem e estudos</td></tr>
-              <tr><td>FNE Verde</td><td>Produtores, empresas e cooperativas</td><td>Energia renovável, recuperação ambiental e saneamento</td></tr>
-              <tr><td>FNE Sol</td><td>Empresas, produtores rurais e pessoas físicas</td><td>Micro e minigeração distribuída de energia</td></tr>
-              <tr><td>Pronaf</td><td>Agricultura familiar</td><td>Custeio e investimento</td></tr>
+              <tr><td data-label="Programa">FNE Rural</td><td data-label="Para quem">Produtores, cooperativas e associações</td><td data-label="O que financia">Obras, máquinas, tratores e matrizes</td></tr>
+              <tr><td data-label="Programa">Custeio FNE</td><td data-label="Para quem">Produtores rurais</td><td data-label="O que financia">Custeio agrícola e pecuário</td></tr>
+              <tr><td data-label="Programa">FNE Irrigação</td><td data-label="Para quem">Produtores de mini a grande porte</td><td data-label="O que financia">Irrigação, drenagem, armazenagem e estudos</td></tr>
+              <tr><td data-label="Programa">FNE Verde</td><td data-label="Para quem">Produtores, empresas e cooperativas</td><td data-label="O que financia">Energia renovável, recuperação ambiental e saneamento</td></tr>
+              <tr><td data-label="Programa">FNE Sol</td><td data-label="Para quem">Empresas, produtores rurais e pessoas físicas</td><td data-label="O que financia">Micro e minigeração distribuída de energia</td></tr>
+              <tr><td data-label="Programa">Pronaf</td><td data-label="Para quem">Agricultura familiar</td><td data-label="O que financia">Custeio e investimento</td></tr>
             </tbody>
           </table>
         </div>
@@ -411,13 +490,13 @@ section[id], main[id] { scroll-margin-top: 84px; }
             <caption>Empresas e infraestrutura</caption>
             <thead><tr><th>Programa</th><th>Para quem</th><th>O que financia</th></tr></thead>
             <tbody>
-              <tr><td>FNE Industrial</td><td>Indústrias de pequeno-médio a grande porte</td><td>Implantação, ampliação, máquinas e modernização</td></tr>
-              <tr><td>FNE Comércio e Serviços</td><td>Empresas de pequeno-médio a grande porte</td><td>Bens de capital, reformas, software e consultoria</td></tr>
-              <tr><td>FNE MPE</td><td>MEI, micro e pequenas empresas</td><td>Investimento, veículos, imóveis e capital de giro associado</td></tr>
-              <tr><td>FNE Giro</td><td>Pequenas empresas, comércio, turismo e indústria</td><td>Insumos, estoques e despesas operacionais</td></tr>
-              <tr><td>FNE Proatur</td><td>Turismo, de pequeno-médio a grande porte</td><td>Hotelaria, reformas, veículos e embarcações</td></tr>
-              <tr><td>FNE Inovação</td><td>Empresas de todos os portes e produtores rurais</td><td>Inovação em produto, processo e gestão</td></tr>
-              <tr><td>FNE Proinfra</td><td>Empresas, consórcios e setor público</td><td>Energia, telecomunicações, saneamento e portos</td></tr>
+              <tr><td data-label="Programa">FNE Industrial</td><td data-label="Para quem">Indústrias de pequeno-médio a grande porte</td><td data-label="O que financia">Implantação, ampliação, máquinas e modernização</td></tr>
+              <tr><td data-label="Programa">FNE Comércio e Serviços</td><td data-label="Para quem">Empresas de pequeno-médio a grande porte</td><td data-label="O que financia">Bens de capital, reformas, software e consultoria</td></tr>
+              <tr><td data-label="Programa">FNE MPE</td><td data-label="Para quem">MEI, micro e pequenas empresas</td><td data-label="O que financia">Investimento, veículos, imóveis e capital de giro associado</td></tr>
+              <tr><td data-label="Programa">FNE Giro</td><td data-label="Para quem">Pequenas empresas, comércio, turismo e indústria</td><td data-label="O que financia">Insumos, estoques e despesas operacionais</td></tr>
+              <tr><td data-label="Programa">FNE Proatur</td><td data-label="Para quem">Turismo, de pequeno-médio a grande porte</td><td data-label="O que financia">Hotelaria, reformas, veículos e embarcações</td></tr>
+              <tr><td data-label="Programa">FNE Inovação</td><td data-label="Para quem">Empresas de todos os portes e produtores rurais</td><td data-label="O que financia">Inovação em produto, processo e gestão</td></tr>
+              <tr><td data-label="Programa">FNE Proinfra</td><td data-label="Para quem">Empresas, consórcios e setor público</td><td data-label="O que financia">Energia, telecomunicações, saneamento e portos</td></tr>
             </tbody>
           </table>
         </div>
@@ -593,6 +672,11 @@ section[id], main[id] { scroll-margin-top: 84px; }
   </section>
 </main>
 
+<div class="mbar" aria-label="Contato rápido">
+  <a class="mbar-wa" href="https://wa.me/5547996834304?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20o%20diagn%C3%B3stico%20gratuito." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3c-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>WhatsApp</a>
+  <a class="btn btn-amber" href="#contato">Diagnóstico gratuito</a>
+</div>
+
 <footer>
   <div class="wrap">
     <span class="foot-brand"><svg viewBox="0 0 362 140" aria-hidden="true"><path fill="var(--ink)" fill-rule="evenodd" d="M20 10H80A32 32 0 0 1 80 74H42V130H20ZM42 32H80A10 10 0 0 1 80 52H42Z"/><path fill="var(--amber-ink)" d="M120 130V10H142L171 70L200 10H222V130H200V58L178 104H164L142 58V130Z"/><path fill="var(--ink)" d="M342 10H290A60 60 0 0 0 290 130H342V108H290A38 38 0 0 1 290 32H342Z"/></svg><span>Princival Marques Consultoria e Gestão Empresarial Ltda · CNPJ 54.498.465/0001-43</span></span>
@@ -603,7 +687,8 @@ section[id], main[id] { scroll-margin-top: 84px; }
 <script>
 // Contato: preencha os campos vazios para que apareçam no site.
 const CONTATO = [
-  { k: 'E-mail', v: 'princival.marques@outlook.com', url: 'mailto:princival.marques@outlook.com' },
+  { k: 'WhatsApp e telefone', v: '(47) 9.9683-4304', url: 'https://wa.me/5547996834304?text=' + encodeURIComponent('Olá! Gostaria de solicitar o diagnóstico gratuito.') },
+  { k: 'E-mail', v: 'contato@princivalmarques.com.br', url: 'mailto:contato@princivalmarques.com.br?subject=' + encodeURIComponent('Diagnóstico gratuito') },
   { k: 'Sede', v: 'Av. Henry Ford, 2232, Lindóia, Curitiba/PR, CEP 81010-100' },
   { k: 'Escritório', v: 'Rua 214, nº 230, Meia Praia, Itapema/SC' },
   { k: 'LinkedIn', v: 'linkedin.com/in/alexandre-princival', url: 'https://www.linkedin.com/in/alexandre-princival' }
@@ -616,7 +701,7 @@ const CONTATO = [
     el.className = 'channel';
     const k = document.createElement('span'); k.className = 'k'; k.textContent = c.k;
     const v = document.createElement(c.url ? 'a' : 'span');
-    if (c.url) { v.href = c.url; v.target = '_blank'; v.rel = 'noopener'; }
+    if (c.url) { v.href = c.url; if (!/^mailto:/.test(c.url)) { v.target = '_blank'; v.rel = 'noopener'; } }
     v.className = 'v' + (c.v ? '' : ' pending');
     v.textContent = c.v || 'Em breve';
     el.append(k, v);
@@ -632,6 +717,15 @@ const CONTATO = [
     }
     box.append(el);
   });
+})();
+
+(function () {
+  const btn = document.querySelector('.menu-btn'), menu = document.getElementById('menu');
+  function set(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu'); document.body.classList.toggle('menu-open', open); }
+  btn.addEventListener('click', function () { set(menu.hidden); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  matchMedia('(min-width: 1101px)').addEventListener('change', function (m) { if (m.matches) set(false); });
 })();
 
 (function () {
