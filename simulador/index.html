@@ -1051,6 +1051,7 @@ $("envio").addEventListener("submit",async e=>{
     return;
   }
   const btn=$("e-btn"); btn.disabled=true; btn.textContent="Enviando…";
+  out.innerHTML=`<p class="hint">Enviando os dados e documentos. Isso pode levar até 1 minuto — mantenha esta página aberta.</p>`;
   const alvo=$("pmc-envio-alvo"), email=f("e-email");
   let terminou=false;
   const fim=ok=>{
@@ -1063,7 +1064,7 @@ $("envio").addEventListener("submit",async e=>{
       out.innerHTML=`<div class="done"><b>Envio realizado.</b> Se não receber retorno da PMC em até 1 dia útil, fale conosco: ${esc(PMC.contato.telefone)} · ${esc(PMC.contato.email)}.</div>`;
     }
   };
-  const t=setTimeout(()=>fim(false),30000);
+  const t=setTimeout(()=>fim(false),120000);
   alvo.onload=()=>fim(true);
   const form=$("envio");
   form.action=PMC.envio.endpoint;
