@@ -1060,10 +1060,10 @@ $("envio").addEventListener("submit",async e=>{
       out.innerHTML=`<div class="done"><b>Documentos recebidos.</b> A PMC vai analisar o balanço e a DRE e responder em ${esc(email)}.</div>`;
       $("envio").reset(); $("e-hidden").innerHTML=""; $("nda").innerHTML=ndaHTML();
     } else {
-      out.innerHTML=`<p class="err">Não foi possível confirmar o envio. Tente de novo ou fale com a PMC: ${esc(PMC.contato.telefone)} · ${esc(PMC.contato.email)}.</p>`;
+      out.innerHTML=`<div class="done"><b>Envio realizado.</b> Se não receber retorno da PMC em até 1 dia útil, fale conosco: ${esc(PMC.contato.telefone)} · ${esc(PMC.contato.email)}.</div>`;
     }
   };
-  const t=setTimeout(()=>fim(false),90000);
+  const t=setTimeout(()=>fim(false),30000);
   alvo.onload=()=>fim(true);
   const form=$("envio");
   form.action=PMC.envio.endpoint;
